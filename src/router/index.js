@@ -11,6 +11,11 @@ const routes = [
     component: CashPosition,
   },
   {
+    path: "/income",
+    name: "DailyIncome",
+    component: () => import("../views/DailyIncome.vue"),
+  },
+  {
     path: "/about",
     name: "About",
     // route level code-splitting

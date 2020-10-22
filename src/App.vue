@@ -4,6 +4,7 @@
       <h1 class="display-4">Daily Position</h1>
       <div id="nav">
         <router-link to="/">Cash</router-link> |
+        <router-link to="/income">Income</router-link> |
         <router-link to="/about">About</router-link>
       </div>
     </div>
