@@ -1,19 +1,22 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div id="app" class="container">
+    <div class="header text-center">
+      <h1 class="display-4">Daily Position</h1>
+      <div id="nav">
+        <router-link to="/">Cash</router-link> |
+        <router-link to="/about">About</router-link>
+      </div>
     </div>
-    <router-view/>
+    <div class="row d-flex justify-content-center my-4 py-2 rounded shadow">
+      <div class="col-12">
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+/* #app {
   color: #2c3e50;
 }
 
@@ -28,5 +31,5 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>
