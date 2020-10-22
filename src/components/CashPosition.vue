@@ -89,35 +89,46 @@
           BDT
         </div>
       </div>
-      <!-- Checkbox -->
+      <!-- Withdrawal from bank -->
       <div class="form-group row">
         <label
-          class="col-sm-3 form-check-label col-form-label-lg"
           for="bank-withdrawal"
-          >Withdrawal from the bank</label
+          class="col-sm-3 col-form-label col-form-label-lg"
+          >Withdrawal from the bank <span class="text-danger">*</span></label
         >
         <div class="col-sm-7">
           <input
             v-model="bankWithdrawal"
-            type="checkbox"
-            class="checkbox form-check-input form-control-lg"
             id="bank-withdrawal"
+            type="number"
+            min="1"
+            name="bank-withdrawal"
+            class="form-control form-control-lg"
           />
         </div>
+        <div class="col-sm-2 text-left d-flex align-items-center currency">
+          BDT
+        </div>
       </div>
+      <!-- Deposit into the bank -->
       <div class="form-group row">
         <label
-          class="col-sm-3 form-check-label col-form-label-lg"
           for="bank-deposit"
-          >Deposit into bank</label
+          class="col-sm-3 col-form-label col-form-label-lg"
+          >Deposit into the bank <span class="text-danger">*</span></label
         >
         <div class="col-sm-7">
           <input
             v-model="bankDeposit"
-            type="checkbox"
-            class="checkbox form-check-input form-control-lg"
             id="bank-deposit"
+            type="number"
+            min="1"
+            name="bank-deposit"
+            class="form-control form-control-lg"
           />
+        </div>
+        <div class="col-sm-2 text-left d-flex align-items-center currency">
+          BDT
         </div>
       </div>
       <!-- Submit -->
@@ -150,8 +161,8 @@ export default {
       settlement: null,
       cashInVolt: null,
       cashInHand: null,
-      bankWithdrawal: false,
-      bankDeposit: false,
+      bankWithdrawal: null,
+      bankDeposit: null,
     };
   },
   computed: {
@@ -172,11 +183,17 @@ export default {
       this.settlement = null;
       this.cashInVolt = null;
       this.cashInHand = null;
-      this.bankWithdrawal = false;
-      this.bankDeposit = false;
+      this.bankWithdrawal = null;
+      this.bankDeposit = null;
     },
     submit() {
-      if (this.settlement && this.cashInVolt && this.cashInHand) {
+      if (
+        this.settlement &&
+        this.cashInVolt &&
+        this.cashInHand &&
+        this.bankWithdrawal &&
+        this.bankDeposit
+      ) {
         this.errors = [];
         console.log(this.itemtobeSave);
         this.reset();
@@ -194,6 +211,12 @@ export default {
       if (!this.cashInHand) {
         this.errors.push("You must provide Cash in hand amount");
       }
+      if (!this.bankWithdrawal) {
+        this.errors.push("You must provide Bank withdrawal amount");
+      }
+      if (!this.bankDeposit) {
+        this.errors.push("You must provide Bank deposit amount");
+      }
     },
   },
 };
@@ -204,5 +227,6 @@ export default {
 }
 .checkbox {
   width: 30px;
+  margin-left: 1px;
 }
 </style>
