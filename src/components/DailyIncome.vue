@@ -34,68 +34,27 @@
           >Income Type <span class="text-danger">*</span></label
         >
         <div class="col-sm-6">
-          {{ incomeType }} {{ modal }}
           <select
             v-model="incomeType"
             id="income-type"
             type="text"
             name="income-type"
             class="form-control form-control-lg"
+            @change="handleChange"
           >
-            <option v-for="item in options" :key="item.id">
+            <option :value="item.id" v-for="item in options" :key="item.id">
               {{ item.title }}
             </option>
             <!-- modal button -->
-            <option
-              type="button"
-              class="btn btn-primary"
-              data-toggle="modal"
-              data-target="#staticBackdrop"
-            >
-              Add new
+            <option class="modalButton">
+              <b-button
+                ref="modalButton"
+                v-b-modal.modal-prevent-closing
+                @click="showModal"
+                ><b-icon icon="plus-circle" aria-hidden="true"></b-icon>Add
+                new</b-button
+              >
             </option>
-            <!-- modal -->
-            <div
-              class="modal fade"
-              id="staticBackdrop"
-              data-backdrop="static"
-              data-keyboard="false"
-              tabindex="-1"
-              aria-labelledby="staticBackdropLabel"
-              aria-hidden="true"
-              v-model="modal"
-            >
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">
-                      Modal title
-                    </h5>
-                    <button
-                      type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">...</div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-primary">
-                      Understood
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </select>
         </div>
       </div>
@@ -133,82 +92,31 @@
         </div>
       </div>
     </form>
-    <!-- Modal outside of the datalist tag works just fine-->
-    <option
-      ref="ttt"
-      type="button"
-      class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#staticBackdrop2"
+    <!-- modal -->
+    <b-modal
+      id="modal-prevent-closing"
+      ref="modal"
+      title="Add Income Type"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
     >
-      Add new ss
-    </option>
-    <div
-      class="modal fade"
-      id="staticBackdrop2"
-      data-backdrop="static"
-      data-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Understood</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Modal body text goes here.</p>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          :state="typeState"
+          label="Type"
+          label-for="custom-type"
+          invalid-feedback="This field is required"
+        >
+          <b-form-input
+            id="custom-type"
+            v-model="customType"
+            :state="typeState"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
   </div>
 </template>
 
@@ -218,6 +126,10 @@ export default {
   components: {},
   data() {
     return {
+      // modal data
+      customType: "",
+      typeState: null,
+      //end modal data
       errors: [],
       date: "",
       incomeType: null,
@@ -227,8 +139,6 @@ export default {
         { id: 2, title: "Type2" },
         { id: 3, title: "Type3" },
       ],
-      modal: false,
-      // isModalVisible: false,
     };
   },
   computed: {
@@ -245,13 +155,17 @@ export default {
     incomeType: {
       handler(value) {
         if (value === "Add new") {
-          this.$refs.ttt.click();
-          console.log(7878778);
           this.incomeType = "";
         }
       },
       deep: true,
     },
+    // name: {
+    //   deep: true,
+    //   handler(value) {
+    //     this.incomeType = value;
+    //   },
+    // },
   },
   methods: {
     reset() {
@@ -279,15 +193,44 @@ export default {
         this.errors.push("You must provide income amount");
       }
     },
-    incomeTypeChange(e) {
-      console.log(e.target.value);
-      console.log(this.incomeType);
-      if (e.target.value === "Add new") {
-        console.log(this.incomeType);
-        this.incomeType = "";
-        this.$refs.ttt.click();
-        console.log(this.incomeType);
+    //modal functionality
+    showModal() {
+      this.$refs["modal"].show();
+    },
+    handleChange() {
+      if (this.incomeType == "Add new") {
+        console.log("object");
+        this.showModal();
       }
+    },
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      this.typeState = valid;
+      return valid;
+    },
+    resetModal() {
+      this.customType = "";
+      this.typeState = null;
+    },
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault();
+      // Trigger submit handler
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      let obj = { id: new Date().valueOf(), title: this.customType };
+      // Push the name to submitted names
+      this.options.push(obj);
+      this.incomeType = obj.id;
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide("modal-prevent-closing");
+      });
     },
   },
 };
@@ -296,5 +239,8 @@ export default {
 <style scoped>
 .currency {
   font-size: 20px;
+}
+.modalButton {
+  border-bottom: 1px solid gray !important;
 }
 </style>
