@@ -34,22 +34,19 @@
           >Income Type <span class="text-danger">*</span></label
         >
         <div class="col-sm-6">
-          <input
+          {{ incomeType }} {{ modal }}
+          <select
             v-model="incomeType"
             id="income-type"
             type="text"
-            list="types"
             name="income-type"
             class="form-control form-control-lg"
-            @keyup.enter="optionToBeAdded"
-            @blur="optionToBeAdded"
-          />
-          <datalist id="types">
+          >
             <option v-for="item in options" :key="item.id">
               {{ item.title }}
             </option>
-            <!-- modal -->
-            <!-- <option
+            <!-- modal button -->
+            <option
               type="button"
               class="btn btn-primary"
               data-toggle="modal"
@@ -57,6 +54,7 @@
             >
               Add new
             </option>
+            <!-- modal -->
             <div
               class="modal fade"
               id="staticBackdrop"
@@ -65,6 +63,7 @@
               tabindex="-1"
               aria-labelledby="staticBackdropLabel"
               aria-hidden="true"
+              v-model="modal"
             >
               <div class="modal-dialog">
                 <div class="modal-content">
@@ -96,8 +95,8 @@
                   </div>
                 </div>
               </div>
-            </div> -->
-          </datalist>
+            </div>
+          </select>
         </div>
       </div>
       <!-- Income amount input -->
@@ -136,16 +135,17 @@
     </form>
     <!-- Modal outside of the datalist tag works just fine-->
     <option
+      ref="ttt"
       type="button"
       class="btn btn-primary"
       data-toggle="modal"
-      data-target="#staticBackdrop"
+      data-target="#staticBackdrop2"
     >
-      Add new
+      Add new ss
     </option>
     <div
       class="modal fade"
-      id="staticBackdrop"
+      id="staticBackdrop2"
       data-backdrop="static"
       data-keyboard="false"
       tabindex="-1"
@@ -179,6 +179,36 @@
         </div>
       </div>
     </div>
+    <div class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Modal body text goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -197,6 +227,7 @@ export default {
         { id: 2, title: "Type2" },
         { id: 3, title: "Type3" },
       ],
+      modal: false,
       // isModalVisible: false,
     };
   },
@@ -208,6 +239,18 @@ export default {
         incomeAmount: this.incomeAmount,
         // options: this.options.push({ title: this.incomeType }),
       };
+    },
+  },
+  watch: {
+    incomeType: {
+      handler(value) {
+        if (value === "Add new") {
+          this.$refs.ttt.click();
+          console.log(7878778);
+          this.incomeType = "";
+        }
+      },
+      deep: true,
     },
   },
   methods: {
@@ -234,6 +277,16 @@ export default {
       }
       if (!this.incomeAmount) {
         this.errors.push("You must provide income amount");
+      }
+    },
+    incomeTypeChange(e) {
+      console.log(e.target.value);
+      console.log(this.incomeType);
+      if (e.target.value === "Add new") {
+        console.log(this.incomeType);
+        this.incomeType = "";
+        this.$refs.ttt.click();
+        console.log(this.incomeType);
       }
     },
   },
