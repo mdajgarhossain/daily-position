@@ -46,12 +46,12 @@
               {{ item.title }}
             </option>
             <!-- modal button -->
-            <option class="modalButton">
+            <option value="addInputType" class="modalButton btn btn-success">
               <b-button
                 ref="modalButton"
                 v-b-modal.modal-prevent-closing
                 @click="showModal"
-                ><b-icon icon="plus-circle" aria-hidden="true"></b-icon>Add
+                ><b-icon icon="plus-circle" aria-hidden="true"></b-icon>+ Add
                 new</b-button
               >
             </option>
@@ -154,7 +154,7 @@ export default {
   watch: {
     incomeType: {
       handler(value) {
-        if (value === "Add new") {
+        if (value === "addInputType") {
           this.incomeType = "";
         }
       },
@@ -198,7 +198,7 @@ export default {
       this.$refs["modal"].show();
     },
     handleChange() {
-      if (this.incomeType == "Add new") {
+      if (this.incomeType == "addInputType") {
         console.log("object");
         this.showModal();
       }
