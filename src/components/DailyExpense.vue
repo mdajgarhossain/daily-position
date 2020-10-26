@@ -34,21 +34,27 @@
           >Expense Type <span class="text-danger">*</span></label
         >
         <div class="col-sm-6">
-          <input
+          <select
             v-model="expenseType"
             id="expense-type"
             type="text"
-            list="types"
             name="expense-type"
             class="form-control form-control-lg"
-            @keyup.enter="optionToBeAdded"
-            @blur="optionToBeAdded"
-          />
-          <datalist id="types">
-            <option v-for="(option, index) in options" :key="index">
-              {{ option.type }}
+            @change="handleChange"
+          >
+            <option :value="item.id" v-for="item in options" :key="item.id">
+              {{ item.title }}
             </option>
-          </datalist>
+            <!-- modal button -->
+            <option value="addInputType" class="modalButton btn btn-success">
+              <b-button
+                ref="modalButton"
+                v-b-modal.modal-prevent-closing
+                @click="showModal"
+                >+ Add new</b-button
+              >
+            </option>
+          </select>
         </div>
       </div>
       <!-- Expense amount input -->
@@ -85,6 +91,31 @@
         </div>
       </div>
     </form>
+    <!-- modal -->
+    <b-modal
+      id="modal-prevent-closing"
+      ref="modal"
+      title="Add Income Type"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          :state="typeState"
+          label="Type"
+          label-for="custom-type"
+          invalid-feedback="This field is required"
+        >
+          <b-form-input
+            id="custom-type"
+            v-model="customType"
+            :state="typeState"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
   </div>
 </template>
 
@@ -94,12 +125,30 @@ export default {
   components: {},
   data() {
     return {
+      // modal data
+      customType: "",
+      typeState: null,
+      //end modal data
       errors: [],
       date: "",
       expenseType: null,
       expenseAmount: null,
-      options: [{ type: "Type1" }, { type: "Type2" }, { type: "Type3" }],
+      options: [
+        { id: 1, title: "Type1" },
+        { id: 2, title: "Type2" },
+        { id: 3, title: "Type3" },
+      ],
     };
+  },
+  watch: {
+    expenseType: {
+      handler(value) {
+        if (value === "addInputType") {
+          this.expenseType = "";
+        }
+      },
+      deep: true,
+    },
   },
   computed: {
     itemToBeSaved() {
@@ -137,12 +186,54 @@ export default {
         this.errors.push("You must provide expense amount");
       }
     },
+    //modal functionality
+    showModal() {
+      this.$refs["modal"].show();
+    },
+    handleChange() {
+      if (this.expenseType == "addInputType") {
+        console.log("object");
+        this.showModal();
+      }
+    },
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      this.typeState = valid;
+      return valid;
+    },
+    resetModal() {
+      this.customType = "";
+      this.typeState = null;
+    },
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault();
+      // Trigger submit handler
+      this.handleSubmit();
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      let obj = { id: new Date().valueOf(), title: this.customType };
+      // Push the name to submitted names
+      this.options.push(obj);
+      this.expenseType = obj.id;
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide("modal-prevent-closing");
+      });
+    },
   },
 };
 </script>
 
 <style scoped>
 .currency {
+  font-size: 20px;
+}
+select option.modalButton {
   font-size: 20px;
 }
 </style>
