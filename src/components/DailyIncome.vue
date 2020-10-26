@@ -51,8 +51,7 @@
                 ref="modalButton"
                 v-b-modal.modal-prevent-closing
                 @click="showModal"
-                ><b-icon icon="plus-circle" aria-hidden="true"></b-icon>+ Add
-                new</b-button
+                >+ Add new</b-button
               >
             </option>
           </select>
@@ -240,7 +239,7 @@ export default {
 .currency {
   font-size: 20px;
 }
-.modalButton {
-  border-bottom: 1px solid gray !important;
+select option.modalButton {
+  font-size: 20px;
 }
 </style>
