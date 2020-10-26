@@ -80,22 +80,24 @@
       </div>
       <!-- Submit -->
       <div class="form-group row">
-        <div class="col-sm-12 text-center">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-6">
           <button
             type="submit"
             value="Submit"
-            class="btn btn-secondary btn-lg col-2"
+            class="btn btn-secondary btn-lg col-2 col-sm-6"
           >
             Submit
           </button>
         </div>
+        <div class="col-sm-2"></div>
       </div>
     </form>
     <!-- modal -->
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
-      title="Add Income Type"
+      title="Add Expense Type"
       @show="resetModal"
       @hidden="resetModal"
       @ok="handleOk"

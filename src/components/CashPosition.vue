@@ -47,20 +47,20 @@
           BDT
         </div>
       </div>
-      <!-- Cash in volt input -->
+      <!-- Cash in vault input -->
       <div class="form-group row">
         <label
-          for="cash-in-volt"
+          for="cash-in-vault"
           class="col-sm-3 col-form-label col-form-label-lg"
-          >Cash in volt <span class="text-danger">*</span></label
+          >Cash in vault <span class="text-danger">*</span></label
         >
         <div class="col-sm-7">
           <input
-            v-model="cashInVolt"
-            id="cash-in-volt"
+            v-model="cashInVault"
+            id="cash-in-vault"
             type="number"
             min="1"
-            name="cash-in-volt"
+            name="cash-in-vault"
             class="form-control form-control-lg"
           />
         </div>
@@ -131,17 +131,78 @@
           BDT
         </div>
       </div>
+      <!-- Show all custom feilds -->
+      <div v-if="customFields.length">
+        <div
+          v-for="(customField, index) in customFields"
+          :key="index"
+          class="form-group row"
+        >
+          <label
+            for="custom-input"
+            class="col-sm-3 col-form-label col-form-label-lg"
+            ><input
+              type="text"
+              placeholder="Add new label"
+              v-model="customField.newLabel"
+              autofocus
+          /></label>
+          <div class="col-sm-7">
+            <input
+              v-model="customField.newInput"
+              id="custom-input"
+              type="number"
+              min="1"
+              name="custom-input"
+              class="form-control form-control-lg"
+            />
+          </div>
+          <div class="col-sm-2 text-left d-flex align-items-center currency">
+            BDT
+          </div>
+        </div>
+      </div>
+      <!-- Show custom input -->
+      <div v-if="isVisible" class="form-group row">
+        <label
+          for="custom-input"
+          class="col-sm-3 col-form-label col-form-label-lg"
+          ><input
+            type="text"
+            placeholder="Add new label"
+            v-model="newLabel"
+            autofocus
+        /></label>
+        <div class="col-sm-7">
+          <input
+            v-model="newInput"
+            id="custom-input"
+            type="number"
+            min="1"
+            name="custom-input"
+            class="form-control form-control-lg"
+          />
+        </div>
+        <div class="col-sm-2 text-left d-flex align-items-center currency">
+          BDT
+        </div>
+      </div>
+      <!-- Add custom input field -->
+      <p @click="setCustomField" class="btn btn-success">+ Add custom field</p>
+
       <!-- Submit -->
       <div class="form-group row">
-        <div class="col-sm-12 text-center">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-7">
           <button
             type="submit"
             value="Submit"
-            class="btn btn-secondary btn-lg col-2"
+            class="btn btn-secondary btn-lg col-2 col-sm-6"
           >
             Submit
           </button>
         </div>
+        <div class="col-sm-2"></div>
       </div>
     </form>
   </div>
@@ -159,10 +220,18 @@ export default {
       errors: [],
       date: "",
       settlement: null,
-      cashInVolt: null,
+      cashInVault: null,
       cashInHand: null,
       bankWithdrawal: null,
       bankDeposit: null,
+      isVisible: false,
+      // customField: {
+      //   newLabel: "",
+      //   newInput: "",
+      // },
+      newLabel: "",
+      newInput: "",
+      customFields: [],
     };
   },
   computed: {
@@ -170,7 +239,7 @@ export default {
       return {
         date: this.date,
         settlement: this.settlement,
-        cashInVolt: this.cashInVolt,
+        cashInVault: this.cashInVault,
         cashInHand: this.cashInHand,
         bankWithdrawal: this.bankWithdrawal,
         bankDeposit: this.bankDeposit,
@@ -178,10 +247,21 @@ export default {
     },
   },
   methods: {
+    //custom input functionality
+    setCustomField() {
+      this.isVisible = true;
+      if (this.newLabel && this.newInput) {
+        this.customFields.push({
+          newLabel: this.newLabel,
+          newInput: this.newInput,
+        });
+      }
+      (this.newLabel = ""), (this.newInput = "");
+    },
     reset() {
       this.date = "";
       this.settlement = null;
-      this.cashInVolt = null;
+      this.cashInVault = null;
       this.cashInHand = null;
       this.bankWithdrawal = null;
       this.bankDeposit = null;
@@ -189,7 +269,7 @@ export default {
     submit() {
       if (
         this.settlement &&
-        this.cashInVolt &&
+        this.cashInVault &&
         this.cashInHand &&
         this.bankWithdrawal &&
         this.bankDeposit
@@ -205,7 +285,7 @@ export default {
       if (!this.settlement) {
         this.errors.push("You must provide Settlement amount");
       }
-      if (!this.cashInVolt) {
+      if (!this.cashInVault) {
         this.errors.push("You must provide Cash in volt amount");
       }
       if (!this.cashInHand) {

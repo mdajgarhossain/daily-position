@@ -17,8 +17,18 @@
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      isNavitemActive: false,
+    };
+  },
+};
+</script>
+
 <style>
-/* #app {
+#app {
   color: #2c3e50;
 }
 
@@ -27,11 +37,14 @@
 }
 
 #nav a {
+  font-size: 20px;
   font-weight: bold;
   color: #2c3e50;
+  padding: 5px;
 }
 
 #nav a.router-link-exact-active {
   color: #42b983;
-} */
+  text-decoration: underline;
+}
 </style>
