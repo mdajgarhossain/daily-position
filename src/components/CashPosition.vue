@@ -14,7 +14,7 @@
       <!-- Date -->
       <div class="form-group row">
         <label for="date" class="col-sm-3 col-form-label col-form-label-lg"
-          >Date</label
+          >Date <span class="text-danger">*</span></label
         >
         <div class="col-sm-7">
           <input
@@ -31,7 +31,7 @@
         <label
           for="settlement"
           class="col-sm-3 col-form-label col-form-label-lg"
-          >Settlement <span class="text-danger">*</span></label
+          >Settlement</label
         >
         <div class="col-sm-7">
           <input
@@ -52,7 +52,7 @@
         <label
           for="cash-in-vault"
           class="col-sm-3 col-form-label col-form-label-lg"
-          >Cash in vault <span class="text-danger">*</span></label
+          >Cash in vault</label
         >
         <div class="col-sm-7">
           <input
@@ -73,7 +73,7 @@
         <label
           for="cash-in-hand"
           class="col-sm-3 col-form-label col-form-label-lg"
-          >Cash in hand <span class="text-danger">*</span></label
+          >Cash in hand</label
         >
         <div class="col-sm-7">
           <input
@@ -94,7 +94,7 @@
         <label
           for="bank-withdrawal"
           class="col-sm-3 col-form-label col-form-label-lg"
-          >Withdrawal from the bank <span class="text-danger">*</span></label
+          >Withdrawal from the bank</label
         >
         <div class="col-sm-7">
           <input
@@ -115,8 +115,8 @@
         <label
           for="bank-deposit"
           class="col-sm-3 col-form-label col-form-label-lg"
-          >Deposit into the bank <span class="text-danger">*</span></label
-        >
+          >Deposit into the bank
+        </label>
         <div class="col-sm-7">
           <input
             v-model="bankDeposit"
@@ -237,14 +237,11 @@ export default {
       bankWithdrawal: null,
       bankDeposit: null,
       isVisible: false,
-      // customField: {
-      //   newLabel: "",
-      //   newInput: "",
-      // },
       newLabel: "",
       newInput: "",
       customFields: [],
       alert: false,
+      allCashData: [],
     };
   },
   computed: {
@@ -286,13 +283,7 @@ export default {
       this.bankDeposit = null;
     },
     submit() {
-      if (
-        this.settlement &&
-        this.cashInVault &&
-        this.cashInHand &&
-        this.bankWithdrawal &&
-        this.bankDeposit
-      ) {
+      if (this.date) {
         this.errors = [];
         if (this.newLabel && this.newInput) {
           this.itemtobeSave[this.newLabel] = this.newInput;
@@ -304,20 +295,8 @@ export default {
 
       this.errors = [];
 
-      if (!this.settlement) {
-        this.errors.push("You must provide Settlement amount");
-      }
-      if (!this.cashInVault) {
-        this.errors.push("You must provide Cash in volt amount");
-      }
-      if (!this.cashInHand) {
-        this.errors.push("You must provide Cash in hand amount");
-      }
-      if (!this.bankWithdrawal) {
-        this.errors.push("You must provide Bank withdrawal amount");
-      }
-      if (!this.bankDeposit) {
-        this.errors.push("You must provide Bank deposit amount");
+      if (!this.date) {
+        this.errors.push("Date is required");
       }
     },
   },

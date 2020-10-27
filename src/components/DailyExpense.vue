@@ -14,7 +14,7 @@
       <!-- Date -->
       <div class="form-group row">
         <label for="date" class="col-sm-4 col-form-label col-form-label-lg"
-          >Date</label
+          >Date <span class="text-danger">*</span></label
         >
         <div class="col-sm-6">
           <input
@@ -31,8 +31,8 @@
         <label
           for="expense-type"
           class="col-sm-4 col-form-label col-form-label-lg"
-          >Expense Type <span class="text-danger">*</span></label
-        >
+          >Expense Type
+        </label>
         <div class="col-sm-6">
           <select
             v-model="expenseType"
@@ -62,8 +62,8 @@
         <label
           for="expense-amount"
           class="col-sm-4 col-form-label col-form-label-lg"
-          >Expense amount <span class="text-danger">*</span></label
-        >
+          >Expense amount
+        </label>
         <div class="col-sm-6">
           <input
             v-model="expenseAmount"
@@ -172,7 +172,7 @@ export default {
       this.options.push({ id: new Date().valueOf(), title: this.incomeType });
     },
     submit() {
-      if (this.expenseType && this.expenseAmount) {
+      if (this.date) {
         this.errors = [];
         console.log(this.itemToBeSaved);
         this.reset();
@@ -181,11 +181,8 @@ export default {
 
       this.errors = [];
 
-      if (!this.expenseType) {
-        this.errors.push("You must select an expense option");
-      }
-      if (!this.expenseAmount) {
-        this.errors.push("You must provide expense amount");
+      if (!this.date) {
+        this.errors.push("Date is required");
       }
     },
     //modal functionality

@@ -14,7 +14,7 @@
       <!-- Date -->
       <div class="form-group row">
         <label for="date" class="col-sm-4 col-form-label col-form-label-lg"
-          >Date</label
+          >Date <span class="text-danger">*</span></label
         >
         <div class="col-sm-6">
           <input
@@ -31,7 +31,7 @@
         <label
           for="income-type"
           class="col-sm-4 col-form-label col-form-label-lg"
-          >Income Type <span class="text-danger">*</span></label
+          >Income Type</label
         >
         <div class="col-sm-6">
           <select
@@ -62,8 +62,8 @@
         <label
           for="income-amount"
           class="col-sm-4 col-form-label col-form-label-lg"
-          >Income amount <span class="text-danger">*</span></label
-        >
+          >Income amount
+        </label>
         <div class="col-sm-6">
           <input
             v-model="incomeAmount"
@@ -161,12 +161,6 @@ export default {
       },
       deep: true,
     },
-    // name: {
-    //   deep: true,
-    //   handler(value) {
-    //     this.incomeType = value;
-    //   },
-    // },
   },
   methods: {
     reset() {
@@ -178,7 +172,7 @@ export default {
       this.options.push({ id: new Date().valueOf(), title: this.incomeType });
     },
     submit() {
-      if (this.incomeType && this.incomeAmount) {
+      if (this.date) {
         this.errors = [];
         console.log(this.itemToBeSaved);
         this.reset();
@@ -187,11 +181,8 @@ export default {
 
       this.errors = [];
 
-      if (!this.incomeType) {
-        this.errors.push("You must select an income option");
-      }
-      if (!this.incomeAmount) {
-        this.errors.push("You must provide income amount");
+      if (!this.date) {
+        this.errors.push("Date is required");
       }
     },
     //modal functionality
