@@ -131,7 +131,7 @@
           BDT
         </div>
       </div>
-      <!-- Show all custom feilds -->
+      <!-- Show all custom fields -->
       <div v-if="customFields.length">
         <div
           v-for="(customField, index) in customFields"
@@ -145,7 +145,7 @@
               type="text"
               placeholder="Add new label"
               v-model="customField.newLabel"
-              autofocus
+              class="new-label"
           /></label>
           <div class="col-sm-7">
             <input
@@ -162,7 +162,7 @@
           </div>
         </div>
       </div>
-      <!-- Show custom input -->
+      <!-- Show custom label & input to add data-->
       <div v-if="isVisible" class="form-group row">
         <label
           for="custom-input"
@@ -187,7 +187,7 @@
           BDT
         </div>
       </div>
-      <!-- Add custom input field -->
+      <!-- Add custom input field button -->
       <p @click="setCustomField" class="btn btn-success">+ Add custom field</p>
 
       <!-- Submit -->
