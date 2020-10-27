@@ -141,12 +141,9 @@
           <label
             for="custom-input"
             class="col-sm-3 col-form-label col-form-label-lg"
-            ><input
-              type="text"
-              placeholder="Add new label"
-              v-model="customField.newLabel"
-              class="new-label"
-          /></label>
+            >{{ customField.newLabel }}</label
+          >
+
           <div class="col-sm-7">
             <input
               v-model="customField.newInput"
@@ -188,7 +185,9 @@
         </div>
       </div>
       <!-- Add custom input field button -->
-      <p @click="setCustomField" class="btn btn-success">+ Add custom field</p>
+      <p @click="setCustomField" class="btn btn-outline-success">
+        + Add custom field
+      </p>
 
       <!-- Submit -->
       <div class="form-group row">
@@ -275,6 +274,9 @@ export default {
         this.bankDeposit
       ) {
         this.errors = [];
+        if (this.newLabel && this.newInput) {
+          this.itemtobeSave[this.newLabel] = this.newInput;
+        }
         console.log(this.itemtobeSave);
         this.reset();
         return true;
