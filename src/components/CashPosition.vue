@@ -154,8 +154,13 @@
               class="form-control form-control-lg"
             />
           </div>
-          <div class="col-sm-2 text-left d-flex align-items-center currency">
+          <div class="col-sm-1 text-left d-flex align-items-center currency">
             BDT
+          </div>
+          <div class="col-sm-1 d-flex align-items-center">
+            <span class="btn btn-sm" @click="removeField(customField)">
+              <b-icon icon="x-circle" scale="2" variant="danger"></b-icon>
+            </span>
           </div>
         </div>
       </div>
@@ -180,9 +185,17 @@
             class="form-control form-control-lg"
           />
         </div>
-        <div class="col-sm-2 text-left d-flex align-items-center currency">
+        <div class="col-sm-1 text-left d-flex align-items-center currency">
           BDT
         </div>
+        <div class="col-sm-1 d-flex align-items-center">
+          <span class="btn btn-sm" @click="isVisible = false">
+            <b-icon icon="x-circle" scale="2" variant="danger"></b-icon>
+          </span>
+        </div>
+        <span v-if="alert && (!newLabel || !newInput)" class="text-danger ml-3"
+          >Please fill the blank field</span
+        >
       </div>
       <!-- Add custom input field button -->
       <p @click="setCustomField" class="btn btn-outline-success">
@@ -231,6 +244,7 @@ export default {
       newLabel: "",
       newInput: "",
       customFields: [],
+      alert: false,
     };
   },
   computed: {
@@ -248,14 +262,20 @@ export default {
   methods: {
     //custom input functionality
     setCustomField() {
-      this.isVisible = true;
       if (this.newLabel && this.newInput) {
         this.customFields.push({
           newLabel: this.newLabel,
           newInput: this.newInput,
         });
+        this.alert = false;
+        (this.newLabel = ""), (this.newInput = "");
+      } else {
+        if (this.isVisible) this.alert = true;
       }
-      (this.newLabel = ""), (this.newInput = "");
+      this.isVisible = true;
+    },
+    removeField(customField) {
+      this.customFields.splice(this.customFields.indexOf(customField), 1);
     },
     reset() {
       this.date = "";
