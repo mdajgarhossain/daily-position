@@ -265,7 +265,7 @@ export default {
           newInput: this.newInput,
         });
         this.alert = false;
-        (this.newLabel = ""), (this.newInput = "");
+        // (this.newLabel = ""), (this.newInput = "");
       } else {
         if (this.isVisible) this.alert = true;
       }
@@ -287,6 +287,7 @@ export default {
         this.errors = [];
         if (this.newLabel && this.newInput) {
           this.itemtobeSave[this.newLabel] = this.newInput;
+          // this.$set(this.itemtobeSave, this.newLabel, this.newInput);
         }
         console.log(this.itemtobeSave);
         this.reset();
