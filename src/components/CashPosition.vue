@@ -131,8 +131,11 @@
           BDT
         </div>
       </div>
+      <pre>
+        {{ customFields }}
+      </pre>
       <!-- Show all custom fields -->
-      <div v-if="customFields.length">
+      <!-- <div v-if="customFields.length">
         <div
           v-for="(customField, index) in customFields"
           :key="index"
@@ -163,44 +166,18 @@
             </span>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- Show custom label & input to add data-->
-      <div v-if="isVisible" class="form-group row">
-        <label
-          for="custom-input"
-          class="col-sm-3 col-form-label col-form-label-lg"
-          ><input
-            type="text"
-            placeholder="Add new label"
-            v-model="newLabel"
-            autofocus
-        /></label>
-        <div class="col-sm-7">
-          <input
-            v-model="newInput"
-            id="custom-input"
-            type="number"
-            min="1"
-            name="custom-input"
-            class="form-control form-control-lg"
-          />
-        </div>
-        <div class="col-sm-1 text-left d-flex align-items-center currency">
-          BDT
-        </div>
-        <div class="col-sm-1 d-flex align-items-center">
-          <span class="btn btn-sm" @click="isVisible = false">
-            <b-icon icon="x-circle" scale="2" variant="danger"></b-icon>
-          </span>
-        </div>
-        <span v-if="alert && (!newLabel || !newInput)" class="text-danger ml-3"
-          >Please fill the blank field</span
-        >
-      </div>
+      <CustomInput
+        v-for="(item, i) in customFields"
+        :key="i"
+        :item="item"
+        @add="addCustomField"
+      />
       <!-- Add custom input field button -->
-      <p @click="setCustomField" class="btn btn-outline-success">
+      <!-- <p @click="addCustomField" class="btn btn-outline-success">
         + Add custom field
-      </p>
+      </p> -->
 
       <!-- Submit -->
       <div class="form-group row">
@@ -222,15 +199,17 @@
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+import CustomInput from "./CustomInput";
 
 export default {
   name: "CashPosition",
-  components: {},
+  components: {
+    CustomInput,
+  },
   data() {
     return {
       errors: [],
-      date: "",
+      date: "2020-10-07",
       settlement: null,
       cashInVault: null,
       cashInHand: null,
@@ -239,7 +218,7 @@ export default {
       isVisible: false,
       newLabel: "",
       newInput: "",
-      customFields: [],
+      customFields: [{ label: "Label1", input: 123 }],
       alert: false,
       allCashData: [],
     };
@@ -253,16 +232,23 @@ export default {
         cashInHand: this.cashInHand,
         bankWithdrawal: this.bankWithdrawal,
         bankDeposit: this.bankDeposit,
+        customFields: this.customFields,
       };
     },
   },
   methods: {
     //custom input functionality
-    setCustomField() {
+    addCustomField(item) {
+      //this.itemtobeSave[item.label] = item.input;
+      this.customFields.push({
+        label: "",
+        lnput: "",
+      });
+      return;
       if (this.newLabel && this.newInput) {
         this.customFields.push({
-          newLabel: this.newLabel,
-          newInput: this.newInput,
+          label: this.newLabel,
+          lnput: this.newInput,
         });
         this.alert = false;
         // (this.newLabel = ""), (this.newInput = "");
@@ -284,11 +270,11 @@ export default {
     },
     submit() {
       if (this.date) {
-        this.errors = [];
-        if (this.newLabel && this.newInput) {
-          this.itemtobeSave[this.newLabel] = this.newInput;
-          // this.$set(this.itemtobeSave, this.newLabel, this.newInput);
-        }
+        // this.errors = [];
+        // if (this.newLabel && this.newInput) {
+        //   this.itemtobeSave[this.newLabel] = this.newInput;
+        //   // this.$set(this.itemtobeSave, this.newLabel, this.newInput);
+        // }
         console.log(this.itemtobeSave);
         this.reset();
         return true;
