@@ -23,9 +23,6 @@
         <b-icon icon="x-circle" scale="2" variant="danger"></b-icon>
       </span>
     </div>
-    <!-- <span v-if="alert && (!newLabel || !newInput)" class="text-danger ml-3"
-          >Please fill the blank field</span
-        > -->
   </div>
 </template>
 

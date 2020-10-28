@@ -166,6 +166,9 @@
       </div> -->
       <!-- Show custom label & input to add data-->
       <CustomInput v-for="(item, i) in customFields" :key="i" :item="item" />
+      <span v-if="alert && (!newLabel || !newInput)" class="text-danger ml-3"
+        >Please fill the blank field</span
+      >
       <!-- Add custom input field button -->
       <p @click="addCustomField" class="btn btn-outline-success">
         + Add custom field
@@ -210,7 +213,7 @@ export default {
       isVisible: false,
       newLabel: "",
       newInput: "",
-      customFields: [{ label: "Label1", input: 123 }],
+      customFields: [],
       alert: false,
       allCashData: [],
     };
@@ -232,10 +235,29 @@ export default {
     //custom input functionality
     addCustomField() {
       //this.itemtobeSave[item.label] = item.input;
-      this.customFields.push({
-        label: "",
-        lnput: "",
-      });
+      let len = this.customFields.length;
+      if (!len) {
+        this.customFields.push({
+          label: "",
+          lnput: "",
+        });
+      } else {
+        console.log(this.customFields);
+
+        if (
+          this.customFields &&
+          this.customFields[len - 1].label &&
+          this.customFields[len - 1].input
+        ) {
+          this.customFields.push({
+            label: "",
+            lnput: "",
+          });
+        } else {
+          return;
+        }
+      }
+
       return;
       if (this.newLabel && this.newInput) {
         this.customFields.push({
