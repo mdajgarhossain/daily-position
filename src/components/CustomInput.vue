@@ -18,13 +18,12 @@
       />
     </div>
     <div class="col-sm-1 text-left d-flex align-items-center currency">BDT</div>
-    <p class="btn" @click="add">Add</p>
-    <!-- <div class="col-sm-1 d-flex align-items-center">
-          <span class="btn btn-sm" @click="isVisible = false">
-            <b-icon icon="x-circle" scale="2" variant="danger"></b-icon>
-          </span>
-        </div>
-        <span v-if="alert && (!newLabel || !newInput)" class="text-danger ml-3"
+    <div class="col-sm-1 d-flex align-items-center">
+      <span class="btn btn-sm" @click="isVisible = false">
+        <b-icon icon="x-circle" scale="2" variant="danger"></b-icon>
+      </span>
+    </div>
+    <!-- <span v-if="alert && (!newLabel || !newInput)" class="text-danger ml-3"
           >Please fill the blank field</span
         > -->
   </div>
@@ -38,13 +37,13 @@ export default {
       default: () => ({}),
     },
   },
-  methods: {
-    add() {
-      if (this.item && this.item.input && this.item.label) {
-        this.$emit("add", this.item);
-      }
-    },
-  },
+  //   methods: {
+  //     add() {
+  //       if (this.item && this.item.input && this.item.label) {
+  //         this.$emit("add", this.item);
+  //       }
+  //     },
+  //   },
 };
 </script>
 

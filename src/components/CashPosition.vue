@@ -131,9 +131,6 @@
           BDT
         </div>
       </div>
-      <pre>
-        {{ customFields }}
-      </pre>
       <!-- Show all custom fields -->
       <!-- <div v-if="customFields.length">
         <div
@@ -168,16 +165,11 @@
         </div>
       </div> -->
       <!-- Show custom label & input to add data-->
-      <CustomInput
-        v-for="(item, i) in customFields"
-        :key="i"
-        :item="item"
-        @add="addCustomField"
-      />
+      <CustomInput v-for="(item, i) in customFields" :key="i" :item="item" />
       <!-- Add custom input field button -->
-      <!-- <p @click="addCustomField" class="btn btn-outline-success">
+      <p @click="addCustomField" class="btn btn-outline-success">
         + Add custom field
-      </p> -->
+      </p>
 
       <!-- Submit -->
       <div class="form-group row">
@@ -238,7 +230,7 @@ export default {
   },
   methods: {
     //custom input functionality
-    addCustomField(item) {
+    addCustomField() {
       //this.itemtobeSave[item.label] = item.input;
       this.customFields.push({
         label: "",
