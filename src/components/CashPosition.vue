@@ -294,7 +294,7 @@ export default {
         //   this.itemtobeSave[this.newLabel] = this.newInput;
         //   // this.$set(this.itemtobeSave, this.newLabel, this.newInput);
         // }
-        this.allCashData = this.itemtobeSave;
+        this.allCashData.push(this.itemtobeSave);
         console.log(this.allCashData);
         this.reset();
         return true;

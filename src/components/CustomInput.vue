@@ -5,6 +5,7 @@
       for="custom-input"
       class="col-sm-3 col-form-label col-form-label-lg"
       ><input
+        class="w-100"
         type="text"
         placeholder="Add new label"
         v-model="item.label"
@@ -12,6 +13,7 @@
         autofocus
     /></label>
     <label
+      @dblclick="showLabel = false"
       v-else
       for="custom-input"
       class="col-sm-3 col-form-label col-form-label-lg"
@@ -66,6 +68,7 @@ export default {
     handleRemove(item) {
       this.item = item;
       this.$emit("handle-remove", item);
+      this.showLabel = false;
     },
     handleShowLabel() {
       if (this.item.label) {
