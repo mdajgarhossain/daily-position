@@ -1,12 +1,23 @@
 <template>
   <div class="form-group row">
-    <label for="custom-input" class="col-sm-3 col-form-label col-form-label-lg"
+    <label
+      v-if="!showLabel"
+      for="custom-input"
+      class="col-sm-3 col-form-label col-form-label-lg"
       ><input
         type="text"
         placeholder="Add new label"
         v-model="item.label"
+        @blur="handleShowLabel"
         autofocus
     /></label>
+    <label
+      v-else
+      for="custom-input"
+      class="col-sm-3 col-form-label col-form-label-lg"
+    >
+      {{ item.label }}</label
+    >
     <div class="col-sm-7">
       <input
         v-model="item.input"
@@ -41,6 +52,11 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      showLabel: false,
+    };
+  },
   methods: {
     // add() {
     //   if (this.item && this.item.input && this.item.label) {
@@ -50,6 +66,13 @@ export default {
     handleRemove(item) {
       this.item = item;
       this.$emit("handle-remove", item);
+    },
+    handleShowLabel() {
+      if (this.item.label) {
+        this.showLabel = true;
+      } else {
+        return;
+      }
     },
   },
 };
