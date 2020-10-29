@@ -165,10 +165,13 @@
         </div>
       </div> -->
       <!-- Show custom label & input to add data-->
-      <CustomInput v-for="(item, i) in customFields" :key="i" :item="item" />
-      <span v-if="alert && (!newLabel || !newInput)" class="text-danger ml-3"
-        >Please fill the blank field</span
-      >
+      <CustomInput
+        v-for="(item, i) in customFields"
+        :key="i"
+        :item="item"
+        :alert="alert"
+        @handle-remove="removeField"
+      />
       <!-- Add custom input field button -->
       <p @click="addCustomField" class="btn btn-outline-success">
         + Add custom field
@@ -204,7 +207,7 @@ export default {
   data() {
     return {
       errors: [],
-      date: "2020-10-07",
+      date: "",
       settlement: null,
       cashInVault: null,
       cashInHand: null,
@@ -239,10 +242,10 @@ export default {
       if (!len) {
         this.customFields.push({
           label: "",
-          lnput: "",
+          input: "",
         });
       } else {
-        console.log(this.customFields);
+        // console.log(this.customFields);
 
         if (
           this.customFields &&
@@ -251,25 +254,27 @@ export default {
         ) {
           this.customFields.push({
             label: "",
-            lnput: "",
+            input: "",
           });
+          this.alert = false;
         } else {
+          this.alert = true;
           return;
         }
       }
 
       return;
-      if (this.newLabel && this.newInput) {
-        this.customFields.push({
-          label: this.newLabel,
-          lnput: this.newInput,
-        });
-        this.alert = false;
-        // (this.newLabel = ""), (this.newInput = "");
-      } else {
-        if (this.isVisible) this.alert = true;
-      }
-      this.isVisible = true;
+      // if (this.newLabel && this.newInput) {
+      //   this.customFields.push({
+      //     label: this.newLabel,
+      //     input: this.newInput,
+      //   });
+      //   this.alert = false;
+      //   // (this.newLabel = ""), (this.newInput = "");
+      // } else {
+      //   if (this.isVisible) this.alert = true;
+      // }
+      // this.isVisible = true;
     },
     removeField(customField) {
       this.customFields.splice(this.customFields.indexOf(customField), 1);
@@ -284,12 +289,13 @@ export default {
     },
     submit() {
       if (this.date) {
-        // this.errors = [];
+        this.errors = [];
         // if (this.newLabel && this.newInput) {
         //   this.itemtobeSave[this.newLabel] = this.newInput;
         //   // this.$set(this.itemtobeSave, this.newLabel, this.newInput);
         // }
-        console.log(this.itemtobeSave);
+        this.allCashData = this.itemtobeSave;
+        console.log(this.allCashData);
         this.reset();
         return true;
       }

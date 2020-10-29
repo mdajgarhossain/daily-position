@@ -19,10 +19,13 @@
     </div>
     <div class="col-sm-1 text-left d-flex align-items-center currency">BDT</div>
     <div class="col-sm-1 d-flex align-items-center">
-      <span class="btn btn-sm" @click="isVisible = false">
+      <span class="btn btn-sm" @click="handleRemove(item)">
         <b-icon icon="x-circle" scale="2" variant="danger"></b-icon>
       </span>
     </div>
+    <span v-if="alert && (!item.label || !item.input)" class="text-danger ml-3"
+      >Please fill the blank field</span
+    >
   </div>
 </template>
 
@@ -33,14 +36,22 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    alert: {
+      type: Boolean,
+      default: false,
+    },
   },
-  //   methods: {
-  //     add() {
-  //       if (this.item && this.item.input && this.item.label) {
-  //         this.$emit("add", this.item);
-  //       }
-  //     },
-  //   },
+  methods: {
+    // add() {
+    //   if (this.item && this.item.input && this.item.label) {
+    //     this.$emit("add", this.item);
+    //   }
+    // },
+    handleRemove(item) {
+      this.item = item;
+      this.$emit("handle-remove", item);
+    },
+  },
 };
 </script>
 
