@@ -5,12 +5,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    allCashData: [],
+    cashData: [],
   },
   mutations: {
     storeCashData: (state, payload) => {
-      state.allCashData.push(payload);
-      console.log(payload, state.allCashData);
+      state.cashData.push(payload);
+      console.log(payload, state.cashData);
     },
   },
   actions: {

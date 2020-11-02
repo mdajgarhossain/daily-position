@@ -191,25 +191,15 @@ export default {
   },
   computed: {
     itemtobeSave() {
-      let a = [
-        {
-          label: "date",
-          input: this.date,
-        },
-        {
-          label: "settlement",
-          input: this.settlement,
-        },
-      ];
-      this.customFields = [...this.customFields, ...a];
-      return this.customFields;
-      // return {
-      //   cashInVault: this.cashInVault,
-      //   cashInHand: this.cashInHand,
-      //   bankWithdrawal: this.bankWithdrawal,
-      //   bankDeposit: this.bankDeposit,
-      //   customFields: this.customFields,
-      // };
+      return {
+        date: this.date,
+        settlement: this.settlement,
+        cashInVault: this.cashInVault,
+        cashInHand: this.cashInHand,
+        bankWithdrawal: this.bankWithdrawal,
+        bankDeposit: this.bankDeposit,
+        customFields: this.customFields,
+      };
     },
   },
   methods: {
