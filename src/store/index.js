@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     cashData: [],
     incomeData: [],
+    expenseData: [],
   },
   mutations: {
     storeCashData: (state, payload) => {
@@ -14,7 +15,10 @@ export default new Vuex.Store({
     },
     storeIncomeData: (state, payload) => {
       state.incomeData.push(payload);
-      console.log(payload, state.incomeData);
+    },
+    storeExpenseData: (state, payload) => {
+      state.expenseData.push(payload);
+      console.log("store data", payload, state.expenseData);
     },
   },
   actions: {
@@ -23,6 +27,9 @@ export default new Vuex.Store({
     },
     storeIncomeData: (context, payload) => {
       context.commit("storeIncomeData", payload);
+    },
+    storeExpenseData: (context, payload) => {
+      context.commit("storeExpenseData", payload);
     },
   },
   modules: {},
