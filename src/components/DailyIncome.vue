@@ -174,7 +174,8 @@ export default {
     submit() {
       if (this.date) {
         this.errors = [];
-        console.log(this.itemToBeSaved);
+        // console.log(this.itemToBeSaved);
+        this.$store.dispatch("storeIncomeData", this.itemToBeSaved);
         this.reset();
         return true;
       }
