@@ -131,39 +131,7 @@
           BDT
         </div>
       </div>
-      <!-- Show all custom fields -->
-      <!-- <div v-if="customFields.length">
-        <div
-          v-for="(customField, index) in customFields"
-          :key="index"
-          class="form-group row"
-        >
-          <label
-            for="custom-input"
-            class="col-sm-3 col-form-label col-form-label-lg"
-            >{{ customField.newLabel }}</label
-          >
 
-          <div class="col-sm-7">
-            <input
-              v-model="customField.newInput"
-              id="custom-input"
-              type="number"
-              min="1"
-              name="custom-input"
-              class="form-control form-control-lg"
-            />
-          </div>
-          <div class="col-sm-1 text-left d-flex align-items-center currency">
-            BDT
-          </div>
-          <div class="col-sm-1 d-flex align-items-center">
-            <span class="btn btn-sm" @click="removeField(customField)">
-              <b-icon icon="x-circle" scale="2" variant="danger"></b-icon>
-            </span>
-          </div>
-        </div>
-      </div> -->
       <!-- Show custom label & input to add data-->
       <CustomInput
         v-for="(item, i) in customFields"
@@ -262,19 +230,7 @@ export default {
           return;
         }
       }
-
       return;
-      // if (this.newLabel && this.newInput) {
-      //   this.customFields.push({
-      //     label: this.newLabel,
-      //     input: this.newInput,
-      //   });
-      //   this.alert = false;
-      //   // (this.newLabel = ""), (this.newInput = "");
-      // } else {
-      //   if (this.isVisible) this.alert = true;
-      // }
-      // this.isVisible = true;
     },
     removeField(customField) {
       this.customFields.splice(this.customFields.indexOf(customField), 1);
@@ -290,12 +246,9 @@ export default {
     submit() {
       if (this.date) {
         this.errors = [];
-        // if (this.newLabel && this.newInput) {
-        //   this.itemtobeSave[this.newLabel] = this.newInput;
-        //   // this.$set(this.itemtobeSave, this.newLabel, this.newInput);
-        // }
-        this.allCashData.push(this.itemtobeSave);
-        console.log(this.allCashData);
+        // this.allCashData.push(this.itemtobeSave);
+        // console.log(this.allCashData);
+        this.$store.dispatch("storeCashData", this.itemtobeSave);
         this.reset();
         return true;
       }
