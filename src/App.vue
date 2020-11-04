@@ -8,7 +8,7 @@
         <router-link to="/expense">Expense</router-link>
         <!-- LOGIN Modal button -->
         <b-button
-          v-b-modal.modal-prevent-closing
+          v-b-modal.login-modal
           pill
           variant="outline-secondary"
           class="login-button"
@@ -19,9 +19,9 @@
 
       <div>
         <!-- Login Modal goes here -->
-        <AuthForm :showLoginForm="showLoginForm" />
+        <LoginForm v-if="showLoginForm" @toggleModal="showRegisterModal" />
         <!-- Register Modal goes here -->
-        <AuthForm :showRegisterForm="showRegisterForm" />
+        <RegisterForm @toggleModal="showLoginModal" />
       </div>
     </div>
     <div class="row d-flex justify-content-center my-4 py-2 rounded shadow">
@@ -33,10 +33,12 @@
 </template>
 
 <script>
-import AuthForm from "./components/Authentication/AuthForm";
+import LoginForm from "./components/Authentication/LoginForm";
+import RegisterForm from "./components/Authentication/RegisterForm";
 export default {
   components: {
-    AuthForm,
+    LoginForm,
+    RegisterForm,
   },
   data() {
     return {
@@ -45,7 +47,16 @@ export default {
       showRegisterForm: false,
     };
   },
-  methods: {},
+  methods: {
+    showRegisterModal(showLoginForm, showRegisterForm) {
+      this.$bvModal.show("register-modal");
+      this.$bvModal.hide("login-modal");
+    },
+    showLoginModal(showLoginForm, showRegisterForm) {
+      this.$bvModal.show("login-modal");
+      this.$bvModal.hide("register-modal");
+    },
+  },
 };
 </script>
 
